@@ -1,0 +1,30 @@
+name: Artifact Creator
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Clone a repo
+        run: git clone https://github.com/kirigami-0/NNSB_main_system.git
+      - name: Output test message
+        run: echo This script still working!
+      - name: Make a zip
+        run: |
+          cd ./NNSB_main_system
+          rm ./zip_in.py
+          rm -r .vscode
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: nnsb
+          path: ./NNSB_main_system/
+          retention-days: 10
